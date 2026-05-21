@@ -1,0 +1,19 @@
+.DS_Store
+
+# Local environment and editor state
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+
+# Local/generated data
+.local/
+*.sqlite
+*.sqlite3
+*.db
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
