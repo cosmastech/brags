@@ -1,6 +1,6 @@
 ---
 name: brag-capture
-description: Capture, normalize, and sanitize personal brag records from work tools, GitHub, manual notes, and other evidence sources. Use when collecting accomplishments or adding entries to a brag warehouse.
+description: Capture, normalize, and sanitize personal brag records from work tools, GitHub, manual notes, manager feedback, peer feedback, and other evidence sources. Use when collecting accomplishments, review feedback, or adding entries to a brag warehouse.
 disable-model-invocation: true
 ---
 
@@ -72,6 +72,19 @@ Prefer accomplishments over activity logs. A useful record usually includes:
 When evidence is thin, still capture the record but set `confidence` to `low` and add `needs_review: true`.
 
 When multiple sources refer to the same accomplishment, create one record with multiple evidence items instead of duplicate records.
+
+## Feedback Capture
+
+Manager, peer, and review-cycle feedback can become brag records when it describes demonstrated strengths, impact, growth, or externally observed behavior. Do not capture it as "wrote my review" unless creating the review itself is the accomplishment.
+
+For feedback records:
+
+- Use the original source, usually `notion`, `manual`, `slack`, or `jira`.
+- Add tags such as `manager-feedback`, `peer-feedback`, `performance-review`, `review-cycle`, or `growth-area`.
+- Summarize the feedback theme; do not store raw review text unless the user explicitly asks.
+- Link the review document or feedback thread in `evidence` with type `doc`, `thread`, or `manual_note`.
+- Set `visibility` to `private` or `work_internal`, `public_safe` to `false`, and `needs_review` to `true`.
+- Use `impact` for what the feedback supports, and `notes` for private context about review-cycle interpretation.
 
 ## Quality Bar
 

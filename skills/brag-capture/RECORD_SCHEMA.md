@@ -32,7 +32,7 @@ Use one JSON object per line. Fields should be stable enough for later import in
 | `project` | string | No | Project, initiative, or area. Avoid confidential names in public records. |
 | `role` | string | No | What the user personally did. |
 | `impact` | string | No | Outcome, metric, user benefit, or business value. |
-| `tags` | array | No | Topics such as `reliability`, `mentorship`, `performance`, `security`. |
+| `tags` | array | No | Topics such as `reliability`, `mentorship`, `performance`, `security`, `manager-feedback`, `peer-feedback`, `performance-review`, or `growth-area`. |
 | `people` | array | No | Collaborators or stakeholders. Avoid adding people unless useful. |
 | `confidence` | string | No | One of `low`, `medium`, `high`. Defaults to `medium`. |
 | `needs_review` | boolean | No | Use `true` when impact, privacy, or facts need review. |
@@ -57,11 +57,43 @@ Evidence fields:
 
 | Field | Type | Required | Notes |
 | --- | --- | --- | --- |
-| `type` | string | Yes | Example: `issue`, `merge_request`, `commit`, `thread`, `doc`, `manual_note`. |
+| `type` | string | Yes | Example: `issue`, `merge_request`, `commit`, `thread`, `doc`, `manual_note`. Use `doc` or `thread` for review-cycle feedback sources. |
 | `url` | string | No | Source URL. |
 | `title` | string | No | Source title or short label. |
 | `visibility` | string | No | One of `private`, `work_internal`, `public`. |
 | `quote` | string | No | Avoid raw quotes from private systems unless explicitly needed. |
+
+## Feedback Records
+
+Manager, peer, and review-cycle feedback uses the same record shape as other brags. Capture the feedback theme as the accomplishment evidence; do not create a record for "wrote my review" unless writing the review is itself the accomplishment.
+
+```json
+{
+  "id": "2026-07-03-notion-manager-feedback-technical-leadership",
+  "date": "2026-07-03",
+  "source": "notion",
+  "source_url": "https://notion.example.com/performance-review",
+  "title": "Manager feedback recognized technical leadership growth",
+  "summary": "Manager feedback from the review cycle called out improved technical leadership and clearer cross-team communication.",
+  "project": "Performance review",
+  "role": "Received and captured manager-observed impact as evidence for future review.",
+  "impact": "Provides third-party evidence for leadership and influence claims.",
+  "tags": ["manager-feedback", "performance-review", "leadership"],
+  "visibility": "private",
+  "public_safe": false,
+  "confidence": "high",
+  "needs_review": true,
+  "evidence": [
+    {
+      "type": "doc",
+      "url": "https://notion.example.com/performance-review",
+      "title": "Q2 performance review",
+      "visibility": "private"
+    }
+  ],
+  "notes": "Summarized from private review feedback. Keep raw wording private unless the user explicitly approves quoting it."
+}
+```
 
 ## Complete Example
 
