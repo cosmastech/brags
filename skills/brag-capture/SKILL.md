@@ -44,19 +44,43 @@ entries/
 
 Use JSONL for canonical records.
 
+## Repository Sync
+
+The brag warehouse should normally be a private Git repository, separate from the public skill/schema repository. Treat the use of this skill as intent to keep that private warehouse synchronized unless the user explicitly says not to sync.
+
+Before reading or writing records:
+
+1. Confirm `$BRAG_HOME` exists and is a Git repository.
+2. Check `git -C "$BRAG_HOME" status --short`.
+3. If there are existing uncommitted changes that were not created by the current capture session, stop and ask before continuing.
+4. Pull the latest remote state with `git -C "$BRAG_HOME" pull --ff-only`.
+5. If the pull fails because the local branch diverged or has conflicts, stop and ask before editing records.
+
+After writing records or generated artifacts:
+
+1. Validate all JSONL files under `$BRAG_HOME`.
+2. Review `git -C "$BRAG_HOME" status --short` and only stage files in the brag warehouse that belong to the capture/update.
+3. Commit the warehouse changes with a concise message such as `Update brag records`.
+4. Push the private warehouse repository so another machine can pull the latest records.
+5. If there are no warehouse changes after capture, do not create an empty commit.
+
+Never commit or push unrelated repositories as part of the sync step. The public skill/schema repository should only be changed when the user explicitly asks to update the skill itself.
+
 ## Core Workflow
 
 1. Identify the task mode:
    - Capture evidence from available tools.
    - Normalize provided notes into brag records.
-2. Gather evidence from the available context and MCPs. Prefer structured sources like Jira, GitLab, GitHub, commits, and PRs before noisier sources like Slack.
-3. Convert evidence into normalized activity records. For the complete field reference, read `RECORD_SCHEMA.md`.
-4. Apply the privacy filter before writing:
+2. Run the repository sync preflight for `$BRAG_HOME`.
+3. Gather evidence from the available context and MCPs. Prefer structured sources like Jira, GitLab, GitHub, commits, and PRs before noisier sources like Slack.
+4. Convert evidence into normalized activity records. For the complete field reference, read `RECORD_SCHEMA.md`.
+5. Apply the privacy filter before writing:
    - Do not store raw message bodies, customer secrets, credentials, private incident details, unreleased strategy, or confidential financial data.
    - Keep source links when useful, but mark work links as private.
    - Set `public_safe` to `false` unless the record is clearly safe for external publication.
-5. Write new records to `inbox/work/YYYY-MM-DD.jsonl` or `inbox/personal/YYYY-MM-DD.jsonl` unless the user asks for a different destination.
-6. Preserve provenance. Each record should explain where it came from well enough that future review can be audited.
+6. Write new records to `inbox/work/YYYY-MM-DD.jsonl` or `inbox/personal/YYYY-MM-DD.jsonl` unless the user asks for a different destination.
+7. Preserve provenance. Each record should explain where it came from well enough that future review can be audited.
+8. Run the repository sync completion steps for `$BRAG_HOME`.
 
 ## Capture Guidelines
 
