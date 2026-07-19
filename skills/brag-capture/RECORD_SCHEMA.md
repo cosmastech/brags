@@ -29,6 +29,7 @@ Use one JSON object per line. Fields should be stable enough for later import in
 | `public_safe` | boolean | Yes | `true` only when safe for external publication. |
 | `source_url` | string | No | Primary evidence URL. Work links are usually private. |
 | `evidence` | array | No | Additional evidence objects. |
+| `behavioral_evidence` | array | No | Evidence-backed observations about how the user worked. Capture-time dimension mappings are suggestions, not confirmed interview claims. |
 | `project` | string | No | Project, initiative, or area. Avoid confidential names in public records. |
 | `role` | string | No | What the user personally did. |
 | `impact` | string | No | Outcome, metric, user benefit, or business value. |
@@ -62,6 +63,35 @@ Evidence fields:
 | `title` | string | No | Source title or short label. |
 | `visibility` | string | No | One of `private`, `work_internal`, `public`. |
 | `quote` | string | No | Avoid raw quotes from private systems unless explicitly needed. |
+
+## Behavioral Evidence Objects
+
+Use behavioral evidence when the sources support an observation about how the user operated. Store the distilled observation and provenance rather than raw conversations.
+
+```json
+{
+  "signal": "bias-for-action",
+  "supports": ["ownership", "ambiguity"],
+  "basis": "Started a limited production rollout and gathered evidence while the broader implementation plan was still being resolved.",
+  "confidence": "medium",
+  "evidence_refs": [
+    "https://gitlab.example.com/group/project/-/merge_requests/123",
+    "https://example.slack.com/archives/CHANNEL/p123456789"
+  ]
+}
+```
+
+Behavioral evidence fields:
+
+| Field | Type | Required | Notes |
+| --- | --- | --- | --- |
+| `signal` | string | Yes | Concise behavior such as `bias-for-action`, `influence-without-authority`, `risk-judgment`, `customer-empathy`, or `systems-thinking`. |
+| `supports` | array | No | Zero or more suggested dimensions: `scope`, `ownership`, `ambiguity`, `perseverance`, `conflict-resolution`, `growth`, `communication`, or `leadership`. |
+| `basis` | string | Yes | Short explanation of what evidence supports the observation. |
+| `confidence` | string | Yes | One of `low`, `medium`, `high`. |
+| `evidence_refs` | array | No | URLs or stable labels that point to items already represented in the record's evidence. Do not copy raw conversations here. |
+
+Do not add a behavioral observation based only on a successful result. The basis should identify the user's decision, action, communication, response, or learning. A later review may confirm, change, or remove the suggested dimensions.
 
 ## Feedback Records
 
