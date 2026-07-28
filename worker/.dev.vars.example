@@ -1,0 +1,11 @@
+# Local development secrets for `wrangler dev`. Copy to .dev.vars.
+# .dev.vars is gitignored. Production values are set via `wrangler secret put`.
+
+# Comma-separated name:token pairs. The name becomes the `actor` on review decisions.
+API_TOKENS=local:dev-token
+
+# Password for the web UI login page.
+UI_PASSWORD=dev-password
+
+# HMAC key for signing the UI session cookie.
+COOKIE_SECRET=dev-cookie-secret

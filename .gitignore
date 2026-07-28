@@ -17,3 +17,8 @@
 *.log
 tmp/
 temp/
+
+# Worker
+node_modules/
+.wrangler/
+.dev.vars

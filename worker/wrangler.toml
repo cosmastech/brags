@@ -1,0 +1,18 @@
+name = "brags"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "brags"
+# Replaced by scripts/bootstrap.sh after `wrangler d1 create`.
+# The placeholder is fine for local development (`wrangler dev`).
+database_id = "00000000-0000-0000-0000-000000000000"
+
+# Phase 4 backups: uncomment once the bucket exists (`wrangler r2 bucket create brag-backups`).
+# [[r2_buckets]]
+# binding = "BACKUPS"
+# bucket_name = "brag-backups"
+#
+# [triggers]
+# crons = ["0 5 * * 0"]
